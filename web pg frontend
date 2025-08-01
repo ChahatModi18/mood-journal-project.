@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mood Journal with Geeta Shlok</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .form-section, .login-section {
+      margin: 20px 0;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input, textarea, select {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #6200ea;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3700b3;
+    }
+
+    canvas {
+      margin-top: 20px;
+    }
+
+    #arrow {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 230px;
+      width: 0; 
+      height: 0; 
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 30px solid purple;
+    }
+  </style>
+</head>
+<body>
+  <h1>Mood Journal</h1>
+  <div class="container">
+    <!-- Sign up / Login -->
+    <div class="login-section">
+      <h2>Login or Signup</h2>
+      <input type="text" placeholder="Username" id="username" />
+      <input type="password" placeholder="Password" id="password" />
+      <br>
+      <button onclick="login()">Login</button>
+      <button onclick="signup()">Signup</button>
+    </div>
+
+    <!-- Spin Wheel for Mood Selection -->
+    <h2>Select Your Mood</h2>
+    <div id="arrow"></div>
+    <canvas id="wheel" width="400" height="400"></canvas>
+    <button onclick="spinWheel()">Spin</button>
+
+    <!-- Journaling Form -->
+    <div class="form-section">
+      <h2>Your Thought Journal</h2>
+      <textarea id="journalText" rows="6" placeholder="Write your thoughts here..."></textarea>
+      <br>
+      <button onclick="submitJournal()">Submit</button>
+      <div id="shlokResult"></div>
+    </div>
+  </div>
+
+  <script>
+    const colors = ["#FF5733", "#FFBD33", "#DBFF33", "#75FF33", "#33FF57", "#33FFBD", "#3380FF"];
+    const moods = ["Angry", "Excited", "Energetic", "Happy", "Calm", "Anxious", "Sad"];
+    const canvas = document.getElementById("wheel");
+    const ctx = canvas.getContext("2d");
+    const radius = 200;
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    function drawWheel() {
+      const arcSize = (2 * Math.PI) / 7;
+      for (let i = 0; i < 7; i++) {
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, arcSize * i, arcSize * (i + 1));
+        ctx.fillStyle = colors[i];
+        ctx.fill();
+        ctx.fillStyle = "#000";
+        ctx.font = "16px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText(moods[i], centerX + Math.cos(arcSize * (i + 0.5)) * 120, centerY + Math.sin(arcSize * (i + 0.5)) * 120);
+      }
+    }
+
+    function spinWheel() {
+      const spin = Math.floor(Math.random() * 7);
+      const selectedMood = moods[spin];
+      alert(`Selected Mood: ${selectedMood}`);
+      fetchShlok(selectedMood);
+    }
+
+    function fetchShlok(mood) {
+      // You will connect this to your backend later.
+      const sampleShloks = {
+        "Angry": "Bhagavad Gita 2.63: From anger, delusion arises...",
+        "Excited": "Bhagavad Gita 4.13: According to the three modes...",
+        "Energetic": "Bhagavad Gita 3.8: Perform your prescribed duty...",
+        "Happy": "Bhagavad Gita 2.14: Happiness and distress are temporary...",
+        "Calm": "Bhagavad Gita 6.7: The yogi who is satisfied...",
+        "Anxious": "Bhagavad Gita 18.66: Abandon all varieties of dharma...",
+        "Sad": "Bhagavad Gita 2.13: Just as the boyhood, youth and old age..."
+      };
+      document.getElementById("shlokResult").innerText = `${sampleShloks[mood]} (Mood: ${mood})`;
+    }
+
+    function submitJournal() {
+      const journal = document.getElementById("journalText").value;
+      alert("Journal submitted!\n" + journal);
+      // Here you could send this to a backend with mood selected
+    }
+
+    function login() {
+      alert("Login feature will be connected to backend.");
+    }
+
+    function signup() {
+      alert("Signup feature will be connected to backend.");
+    }
+
+    drawWheel();
+  </script>
+</body>
+</html>
