@@ -1,0 +1,15 @@
+Project Structure MHMA (Initial Setup)
+
+mood-journal-geeta/
+│
+├── app.py                    ← Flask backend
+├── templates/
+│   └── index.html            ← Journal input page
+├── static/
+│   ├── style.css             ← Styling
+│   └── script.js             ← Optional JS for frontend
+├── mood_detector.py         ← NLP sentiment analysis logic
+├── geeta_mapping.py         ← Map mood to Geeta shloks
+├── database.sql             ← SQL file to set up the database
+├── mood_wheel.html          ← Optional spin wheel page
+└── requirements.txt         ← List of Python packages
